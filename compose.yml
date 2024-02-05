@@ -1,0 +1,24 @@
+version: '3'
+services:
+  rdb:
+    image: mysql:8.0
+    ports:
+      - 13306:3306
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - mysql_data:/var/lib/mysql
+  web:
+    build: .
+    working_dir: /usr/src/app
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - rdb
+
+volumes:
+  mysql_data:
+  share:
