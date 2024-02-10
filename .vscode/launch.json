@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "rdbg",
+            "name": "Rspec - active spec file only",
+            "request": "launch",
+            "command": "rspec",
+            "script": "${file}",
+            "args": [],
+            "askParameters": true,
+            "useBundler": true
+        },
+        {
+            "type": "rdbg",
+            "name": "Run rails server",
+            "request": "launch",
+            "command": "bin/rails",
+            "script": "s -b 0.0.0.0",
+            "args": [],
+            "askParameters": false,
+            "useBundler": true
+        }
+    ]
+}
