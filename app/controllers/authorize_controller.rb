@@ -10,9 +10,17 @@ class AuthorizeController < ApplicationController
 
   def callback
     # TODO: verify state
-    api_client = Spotify::TokenApiClient.new
-    @credentials = api_client.token(code: params[:code], redirect_uri:)
-    # TODO: get user info and create user data
+    token_api_client = Spotify::TokenApiClient.new
+    credentials = token_api_client.token(code: params[:code], redirect_uri:)
+
+    v1_api_client = Spotify::V1ApiClient.new(access_token: credentials.access_token)
+    user_info = v1_api_client.me
+
+    user = User.find_or_initialize_by(identifier: user_info.id)
+    user.update!(
+      access_token: credentials.access_token,
+      refresh_token: credentials.refresh_token
+    )
   end
 
   private
