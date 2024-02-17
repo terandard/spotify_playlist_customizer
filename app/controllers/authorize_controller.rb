@@ -3,13 +3,21 @@
 class AuthorizeController < ApplicationController
   AUTHORIZE_URI = 'https://accounts.spotify.com/authorize'
 
+  class InvalidState < StandardError; end
+
+  rescue_from InvalidState do
+    redirect_to login_path
+  end
+
   def start
-    # TODO: save state
+    session[:state] = state
+
     redirect_to authorize_url, allow_other_host: true
   end
 
   def callback
-    # TODO: verify state
+    verify_state
+
     token_api_client = Spotify::TokenApiClient.new
     credentials = token_api_client.token(code: params[:code], redirect_uri:)
 
@@ -54,6 +62,10 @@ class AuthorizeController < ApplicationController
   end
 
   def state
-    SecureRandom.hex(16)
+    @state ||= SecureRandom.hex(16)
+  end
+
+  def verify_state
+    raise InvalidState unless session[:state] == params[:state]
   end
 end

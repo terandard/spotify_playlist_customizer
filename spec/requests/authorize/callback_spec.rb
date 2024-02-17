@@ -10,10 +10,12 @@ RSpec.describe 'Authorizes' do
     let(:token_api_client) { stub_api_client(Spotify::TokenApiClient, token: credentials) }
     let(:credentials) { { access_token: 'access_token', refresh_token: 'refresh_token' } }
     let(:v1_api_client) { stub_api_client(Spotify::V1ApiClient, me: { id: 'identifier' }) }
+    let(:session) { { state: 'state' } }
 
     before do
       allow(Spotify::TokenApiClient).to receive(:new).and_return(token_api_client)
       allow(Spotify::V1ApiClient).to receive(:new).and_return(v1_api_client)
+      allow_any_instance_of(AuthorizeController).to receive(:session).and_return(session) # rubocop:disable RSpec/AnyInstance
     end
 
     it 'requests access token' do
@@ -64,6 +66,18 @@ RSpec.describe 'Authorizes' do
           access_token: 'access_token',
           refresh_token: 'refresh_token'
         )
+      end
+    end
+
+    context 'when the state is invalid' do
+      let(:session) { { state: 'invalid_state' } }
+
+      it 'redirects to the login page' do
+        expect(api_request).to redirect_to(login_path)
+      end
+
+      it 'does not create a user' do
+        expect { api_request }.not_to change(User, :count)
       end
     end
   end

@@ -13,17 +13,30 @@ RSpec.describe 'Authorizes' do
         client_id: 'spotify-client-id',
         scope: 'playlist-modify-private',
         redirect_uri: 'http://localhost:3000/authorize/callback',
-        state: 'state'
+        state:
       }
     end
     let(:expected_url) { "#{authorize_url}?#{query.to_param}" }
+    let(:state) { 'state' }
+    let(:session) do
+      instance_double(ActionDispatch::Request::Session)
+    end
 
     before do
-      allow(SecureRandom).to receive(:hex).and_return('state')
+      allow(SecureRandom).to receive(:hex).and_return(state)
+
+      # SecureRandom.hex をモックすると session に保存する際に FrozenError が発生するので、session もモックしている
+      allow_any_instance_of(AuthorizeController).to receive(:session).and_return(session) # rubocop:disable RSpec/AnyInstance
+      allow(session).to receive(:[]=)
     end
 
     it 'redirects to the Spotify authorize page' do
       expect(api_request).to redirect_to(expected_url)
+    end
+
+    it 'stores the state in the session' do
+      api_request
+      expect(session).to have_received(:[]=).with(:state, state)
     end
   end
 end
