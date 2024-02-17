@@ -18,7 +18,11 @@ services:
       - "3000:3000"
     depends_on:
       - rdb
+      - redis
+  redis:
+    image: redis:7.0
+    ports:
+      - 6379:6379
 
 volumes:
   mysql_data:
-  share:

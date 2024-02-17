@@ -67,4 +67,8 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.include FactoryBot::Syntax::Methods
+
+  config.after do
+    Redis.new(url: 'redis://redis:6379/1').flushdb
+  end
 end
