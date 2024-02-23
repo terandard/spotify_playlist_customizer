@@ -5,24 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "rdbg",
-            "name": "Rspec - active spec file only",
+            "type": "ruby_lsp",
             "request": "launch",
-            "command": "rspec",
-            "script": "${file}",
-            "args": [],
-            "askParameters": true,
-            "useBundler": true
+            "name": "Debug test",
+            "program": "rspec ${file}",
         },
         {
-            "type": "rdbg",
-            "name": "Run rails server",
+            "type": "ruby_lsp",
             "request": "launch",
-            "command": "bin/rails",
-            "script": "s -b 0.0.0.0",
-            "args": [],
-            "askParameters": false,
-            "useBundler": true
+            "name": "Debug test by specifying a line",
+            "program": "rspec ${file}:${lineNumber}",
+        },
+        {
+            "type": "ruby_lsp",
+            "request": "launch",
+            "name": "Run rails server",
+            "program": "bin/rails s -b 0.0.0.0"
         }
     ]
 }

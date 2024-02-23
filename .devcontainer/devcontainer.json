@@ -21,7 +21,6 @@
 		"vscode": {
 			"extensions": [
 				"Shopify.ruby-lsp",
-				"KoichiSasada.vscode-rdbg",
 				"mhutchie.git-graph",
 				"eamodio.gitlens",
 				"GitHub.copilot",
