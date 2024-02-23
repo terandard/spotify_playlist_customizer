@@ -42,6 +42,11 @@ RSpec.describe 'Authorizes' do
           refresh_token: 'refresh_token'
         )
       end
+
+      it 'save user identifier in the session' do
+        api_request
+        expect(session[:user_identifier]).to eq('identifier')
+      end
     end
 
     context 'when the user exists' do
@@ -67,6 +72,11 @@ RSpec.describe 'Authorizes' do
           refresh_token: 'refresh_token'
         )
       end
+
+      it 'save user identifier in the session' do
+        api_request
+        expect(session[:user_identifier]).to eq('identifier')
+      end
     end
 
     context 'when the state is invalid' do
@@ -78,6 +88,11 @@ RSpec.describe 'Authorizes' do
 
       it 'does not create a user' do
         expect { api_request }.not_to change(User, :count)
+      end
+
+      it 'does not save user identifier in the session' do
+        api_request
+        expect(session[:user_identifier]).to be_nil
       end
     end
   end

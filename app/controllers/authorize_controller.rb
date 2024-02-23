@@ -5,6 +5,8 @@ class AuthorizeController < ApplicationController
 
   class InvalidState < StandardError; end
 
+  before_action :verify_state, only: :callback
+
   rescue_from InvalidState do
     redirect_to login_path
   end
@@ -16,15 +18,13 @@ class AuthorizeController < ApplicationController
   end
 
   def callback
-    verify_state
-
-    token_api_client = Spotify::TokenApiClient.new
-    credentials = token_api_client.token(code: params[:code], redirect_uri:)
-
-    v1_api_client = Spotify::V1ApiClient.new(access_token: credentials.access_token)
-    user_info = v1_api_client.me
+    credentials = fetch_credentials
+    user_info = fetch_user_info(credentials)
 
     user = User.find_or_initialize_by(identifier: user_info.id)
+
+    session[:user_identifier] = user.identifier
+
     user.update!(
       access_token: credentials.access_token,
       refresh_token: credentials.refresh_token
@@ -67,5 +67,15 @@ class AuthorizeController < ApplicationController
 
   def verify_state
     raise InvalidState unless session[:state] == params[:state]
+  end
+
+  def fetch_credentials
+    token_api_client = Spotify::TokenApiClient.new
+    token_api_client.token(code: params[:code], redirect_uri:)
+  end
+
+  def fetch_user_info(credentials)
+    user_api_client = Spotify::V1ApiClient.new(access_token: credentials.access_token)
+    user_api_client.me
   end
 end
