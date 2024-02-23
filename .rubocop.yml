@@ -30,6 +30,10 @@ Metrics/MethodLength:
   Exclude:
     - "db/**/*"
 
+Lint/MissingSuper:
+  Exclude:
+    - "app/api_clients/**/*"
+
 RSpec/ExampleLength:
   Max: 10
 
