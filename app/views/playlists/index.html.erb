@@ -1,0 +1,11 @@
+<h1>Playlists</h1>
+
+<% @playlists.each do |playlist| %>
+  <%= image_tag playlist.images[0].url %>
+  <ul>
+    <li>ID: <%= playlist.id %></li>
+    <li>Name: <%= playlist.name %></li>
+    <li>Track number:<%= playlist.tracks.total %></li>
+    <li>Owner: <%= playlist.owner.display_name || playlist.owner.id %></li>
+  </ul>
+<% end %>
