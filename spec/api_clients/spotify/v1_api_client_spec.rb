@@ -41,4 +41,16 @@ RSpec.describe Spotify::V1ApiClient, type: :api_client do
         .with(headers:)
     end
   end
+
+  describe '#my_playlists' do
+    subject(:api_request) { api_client.my_playlists }
+
+    it_behaves_like 'to handle errors'
+
+    it do
+      expect { api_request }
+        .to request_to(:get, 'https://api.spotify.com/v1/me/playlists')
+        .with(headers:)
+    end
+  end
 end

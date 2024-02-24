@@ -19,6 +19,15 @@ module Spotify
       get 'me', headers:
     end
 
+    # GET https://api.spotify.com/v1/me/playlists
+    #
+    # @return [Sawyer::Resource] a list of the playlists owned or followed by the current user
+    # @raise [MyApiClient::Error]
+    # @see https://developer.spotify.com/documentation/web-api/reference/get-a-list-of-current-users-playlists
+    def my_playlists
+      get 'me/playlists', headers:
+    end
+
     private
 
     attr_reader :access_token
