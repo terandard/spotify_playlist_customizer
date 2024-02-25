@@ -55,4 +55,24 @@ RSpec.describe Spotify::TokenApiClient, type: :api_client do
         .with(headers:, body: expected_body)
     end
   end
+
+  describe '#refresh' do
+    subject(:api_request) { api_client.refresh(refresh_token:) }
+
+    let(:refresh_token) { 'refresh_token' }
+    let(:expected_body) do
+      {
+        grant_type: 'refresh_token',
+        refresh_token:
+      }.to_query
+    end
+
+    it_behaves_like 'to handle errors'
+
+    it do
+      expect { api_request }
+        .to request_to(:post, 'https://accounts.spotify.com/api/token')
+        .with(headers:, body: expected_body)
+    end
+  end
 end
