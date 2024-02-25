@@ -27,7 +27,8 @@ class AuthorizeController < ApplicationController
 
     user.update!(
       access_token: credentials.access_token,
-      refresh_token: credentials.refresh_token
+      refresh_token: credentials.refresh_token,
+      expires_at: credentials.expires_in.seconds.from_now
     )
 
     redirect_to playlists_path
