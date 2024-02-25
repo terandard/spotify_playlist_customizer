@@ -78,7 +78,7 @@ class AuthorizeController < ApplicationController
   end
 
   def fetch_user_info(credentials)
-    user_api_client = Spotify::V1ApiClient.new(access_token: credentials.access_token)
+    user_api_client = Spotify::V1ApiClient.new(user: nil, access_token: credentials.access_token)
     user_api_client.me
   end
 end

@@ -2,7 +2,7 @@
 
 class PlaylistsController < ApplicationController
   def index
-    user_api_client = Spotify::V1ApiClient.new(access_token: current_user.access_token)
+    user_api_client = Spotify::V1ApiClient.new(user: current_user)
     response = user_api_client.my_playlists
     @playlists = response['items']
   end

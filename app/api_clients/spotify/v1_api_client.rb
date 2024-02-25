@@ -6,8 +6,16 @@ module Spotify
 
     # error_handling json: { '$.errors.code': 10 }, raise: MyApiClient::Error
 
-    def initialize(access_token:)
+    def initialize(user:, access_token: nil)
       @access_token = access_token
+
+      return if user.blank?
+
+      @user = user
+      @access_token = user.access_token
+      @refresh_token = user.refresh_token
+      @expires_at = user.expires_at
+      verify_expiration
     end
 
     # GET https://api.spotify.com/v1/me
@@ -30,13 +38,31 @@ module Spotify
 
     private
 
-    attr_reader :access_token
+    attr_reader :user, :access_token, :refresh_token, :expires_at
 
     def headers
       {
         'Content-Type': 'application/json',
         Authorization: "Bearer #{access_token}"
       }
+    end
+
+    def verify_expiration
+      return if expires_at.future?
+
+      token_refresh
+    end
+
+    def token_refresh
+      credentials = Spotify::TokenApiClient.new.refresh(refresh_token:)
+      user.update!(
+        access_token: credentials.access_token,
+        refresh_token: credentials.refresh_token,
+        expires_at: credentials.expires_in.seconds.from_now
+      )
+      @access_token = credentials.access_token
+      @refresh_token = credentials.refresh_token
+      @expires_at = credentials.expires_in.seconds.from_now
     end
   end
 end
