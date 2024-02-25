@@ -8,6 +8,7 @@
 #  identifier    :string(255)      not null
 #  access_token  :string(255)      not null
 #  refresh_token :string(255)      not null
+#  expires_at    :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
