@@ -27,7 +27,8 @@ class AuthorizeController < ApplicationController
 
     user.update!(
       access_token: credentials.access_token,
-      refresh_token: credentials.refresh_token
+      refresh_token: credentials.refresh_token,
+      expires_at: credentials.expires_in.seconds.from_now
     )
 
     redirect_to playlists_path
@@ -77,7 +78,7 @@ class AuthorizeController < ApplicationController
   end
 
   def fetch_user_info(credentials)
-    user_api_client = Spotify::V1ApiClient.new(access_token: credentials.access_token)
+    user_api_client = Spotify::V1ApiClient.new(user: nil, access_token: credentials.access_token)
     user_api_client.me
   end
 end

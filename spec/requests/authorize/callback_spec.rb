@@ -8,11 +8,13 @@ RSpec.describe 'Authorizes' do
 
     let(:params) { { code: 'code', state: 'state' } }
     let(:token_api_client) { stub_api_client(Spotify::TokenApiClient, token: credentials) }
-    let(:credentials) { { access_token: 'access_token', refresh_token: 'refresh_token' } }
+    let(:credentials) { { access_token: 'access_token', refresh_token: 'refresh_token', expires_in: 3600 } }
     let(:v1_api_client) { stub_api_client(Spotify::V1ApiClient, me: { id: 'identifier' }) }
     let(:session) { { state: 'state' } }
 
     before do
+      freeze_time
+
       allow(Spotify::TokenApiClient).to receive(:new).and_return(token_api_client)
       allow(Spotify::V1ApiClient).to receive(:new).and_return(v1_api_client)
       allow_any_instance_of(AuthorizeController).to receive(:session).and_return(session) # rubocop:disable RSpec/AnyInstance
@@ -43,7 +45,8 @@ RSpec.describe 'Authorizes' do
         expect(user).to have_attributes(
           identifier: 'identifier',
           access_token: 'access_token',
-          refresh_token: 'refresh_token'
+          refresh_token: 'refresh_token',
+          expires_at: 3600.seconds.from_now
         )
       end
 
@@ -73,7 +76,8 @@ RSpec.describe 'Authorizes' do
         expect(user).to have_attributes(
           identifier: 'identifier',
           access_token: 'access_token',
-          refresh_token: 'refresh_token'
+          refresh_token: 'refresh_token',
+          expires_at: 3600.seconds.from_now
         )
       end
 

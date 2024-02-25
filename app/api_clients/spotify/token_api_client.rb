@@ -23,6 +23,21 @@ module Spotify
       post 'token', body:, headers:
     end
 
+    # Request the refreshing access token
+    # POST https://accounts.spotify.com/api/token
+    #
+    # @param refresh_token [String] Spotify refresh token
+    # @return [Sawyer::Resource]
+    # @raise [MyApiClient::Error]
+    # @see https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens
+    def refresh(refresh_token:)
+      body = {
+        grant_type: 'refresh_token',
+        refresh_token:
+      }.to_query
+      post 'token', body:, headers:
+    end
+
     private
 
     def headers
