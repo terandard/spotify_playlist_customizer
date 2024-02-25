@@ -28,6 +28,10 @@ RSpec.describe 'Authorizes' do
       expect(v1_api_client).to have_received(:me)
     end
 
+    it 'redirects to the playlists page' do
+      expect(api_request).to redirect_to(playlists_path)
+    end
+
     context 'when the user does not exist' do
       it 'creates a user' do
         expect { api_request }.to change(User, :count).by(1)

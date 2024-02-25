@@ -29,6 +29,8 @@ class AuthorizeController < ApplicationController
       access_token: credentials.access_token,
       refresh_token: credentials.refresh_token
     )
+
+    redirect_to playlists_path
   end
 
   private
