@@ -1,0 +1,9 @@
+<h1>Playlist Details</h1>
+
+<% @playlist_items.each do |item| %>
+  <%= image_tag item.track.album.images[0].url %>
+  <ul>
+    <li>Name: <%= item.track.name %></li>
+    <li>Artist: <%= item.track.artists.map(&:name).join(',') %></li>
+  </ul>
+<% end %>
