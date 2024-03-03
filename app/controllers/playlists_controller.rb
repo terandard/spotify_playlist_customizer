@@ -5,6 +5,7 @@ class PlaylistsController < ApplicationController
   def index
     response = user_api_client.my_playlists
     @playlists = response['items']
+    save_playlists(@playlists)
   end
 
   # GET /playlists/:identifier
@@ -17,5 +18,17 @@ class PlaylistsController < ApplicationController
 
   def user_api_client
     Spotify::V1ApiClient.new(user: current_user)
+  end
+
+  def save_playlists(playlists)
+    playlists.each do |playlist|
+      current_user
+        .playlists
+        .find_or_initialize_by(identifier: playlist.id)
+        .update!(
+          name: playlist.name,
+          image_url: playlist.images.first&.url
+        )
+    end
   end
 end
