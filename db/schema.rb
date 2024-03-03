@@ -12,7 +12,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_225_004_153) do
+ActiveRecord::Schema[7.1].define(version: 20_240_303_115_756) do
+  create_table 'playlists', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.bigint 'user_id', null: false
+    t.string 'identifier', null: false
+    t.string 'name'
+    t.string 'image_url'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['user_id'], name: 'index_playlists_on_user_id'
+  end
+
   create_table 'users', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
     t.string 'identifier', null: false
     t.string 'access_token', null: false
