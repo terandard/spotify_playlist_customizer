@@ -12,7 +12,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_303_115_756) do
+ActiveRecord::Schema[7.1].define(version: 20_240_306_101_746) do
+  create_table 'artists', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.string 'identifier', null: false
+    t.string 'name', null: false
+    t.json 'genres'
+    t.integer 'popularity'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['identifier'], name: 'index_artists_on_identifier', unique: true
+  end
+
   create_table 'playlists', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
     t.bigint 'user_id', null: false
     t.string 'identifier', null: false
