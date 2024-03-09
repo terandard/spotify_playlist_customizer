@@ -17,4 +17,5 @@
 #  index_artists_on_identifier  (identifier) UNIQUE
 #
 class Artist < ApplicationRecord
+  has_many :tracks, dependent: :destroy
 end

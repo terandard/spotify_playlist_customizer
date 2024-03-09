@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_306_101_746) do
+ActiveRecord::Schema[7.1].define(version: 20_240_306_113_348) do
   create_table 'artists', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
     t.string 'identifier', null: false
     t.string 'name', null: false
@@ -33,6 +33,18 @@ ActiveRecord::Schema[7.1].define(version: 20_240_306_101_746) do
     t.index ['user_id'], name: 'index_playlists_on_user_id'
   end
 
+  create_table 'tracks', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.bigint 'artist_id', null: false
+    t.string 'identifier', null: false
+    t.integer 'popularity', null: false
+    t.integer 'duration_ms', null: false
+    t.string 'name'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['artist_id'], name: 'index_tracks_on_artist_id'
+    t.index ['identifier'], name: 'index_tracks_on_identifier', unique: true
+  end
+
   create_table 'users', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
     t.string 'identifier', null: false
     t.string 'access_token', null: false
@@ -42,4 +54,6 @@ ActiveRecord::Schema[7.1].define(version: 20_240_306_101_746) do
     t.datetime 'updated_at', null: false
     t.index ['identifier'], name: 'index_users_on_identifier', unique: true
   end
+
+  add_foreign_key 'tracks', 'artists'
 end
