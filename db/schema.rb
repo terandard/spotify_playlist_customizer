@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_306_113_348) do
+ActiveRecord::Schema[7.1].define(version: 20_240_309_095_847) do
   create_table 'artists', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
     t.string 'identifier', null: false
     t.string 'name', null: false
@@ -21,6 +21,15 @@ ActiveRecord::Schema[7.1].define(version: 20_240_306_113_348) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['identifier'], name: 'index_artists_on_identifier', unique: true
+  end
+
+  create_table 'playlist_tracks', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.bigint 'playlist_id', null: false
+    t.bigint 'track_id', null: false
+    t.integer 'position', default: 0, null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index %w[playlist_id track_id], name: 'index_playlist_tracks_on_playlist_id_and_track_id', unique: true
   end
 
   create_table 'playlists', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
