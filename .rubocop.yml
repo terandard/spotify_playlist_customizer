@@ -25,6 +25,7 @@ Style/Documentation:
 Metrics/BlockLength:
   Exclude:
     - "config/**/*"
+    - "db/**/*"
 
 Metrics/MethodLength:
   Exclude:

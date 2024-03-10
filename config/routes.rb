@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   resource :login, only: :show
-  resources :playlists, only: :index
+  resources :playlists, only: %i[index show], param: :identifier
 
   get 'authorize/start'
   get 'authorize/callback'

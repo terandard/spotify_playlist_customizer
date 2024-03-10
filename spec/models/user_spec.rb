@@ -3,5 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'associations' do
+    subject(:instance) { build(:user) }
+
+    it { expect(instance).to have_many(:playlists).dependent(:destroy) }
+  end
 end

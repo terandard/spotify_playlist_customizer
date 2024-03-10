@@ -115,4 +115,19 @@ RSpec.describe Spotify::V1ApiClient, type: :api_client do
         .with(headers:)
     end
   end
+
+  describe '#playlist_details' do
+    subject(:api_request) { api_client.playlist_details(playlist_id:) }
+
+    let(:playlist_id) { 'playlist_id' }
+    let(:query) { { limit: 50 } }
+
+    it_behaves_like 'to handle errors'
+
+    it do
+      expect { api_request }
+        .to request_to(:get, 'https://api.spotify.com/v1/playlists/playlist_id/tracks')
+        .with(headers:, query:)
+    end
+  end
 end

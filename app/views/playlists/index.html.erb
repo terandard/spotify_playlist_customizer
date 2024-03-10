@@ -7,5 +7,6 @@
     <li>Name: <%= playlist.name %></li>
     <li>Track number:<%= playlist.tracks.total %></li>
     <li>Owner: <%= playlist.owner.display_name || playlist.owner.id %></li>
+    <%= link_to 'details', playlist_path(playlist.id) %>
   </ul>
 <% end %>

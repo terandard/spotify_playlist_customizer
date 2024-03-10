@@ -17,4 +17,5 @@
 #  index_users_on_identifier  (identifier) UNIQUE
 #
 class User < ApplicationRecord
+  has_many :playlists, dependent: :destroy
 end

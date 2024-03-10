@@ -36,6 +36,17 @@ module Spotify
       get 'me/playlists', headers:
     end
 
+    # GET https://api.spotify.com/v1/playlists/#{playlist_id}/tracks
+    #
+    # @param playlist_id [String] The Spotify ID for the playlist.
+    # @return [Sawyer::Resource] Get full details of the items of a playlist owned by a Spotify user.
+    # @raise [MyApiClient::Error]
+    # @see https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks
+    def playlist_details(playlist_id:)
+      query = { limit: 50 }
+      get "/playlists/#{playlist_id}/tracks", query:, headers:
+    end
+
     private
 
     attr_reader :user, :access_token, :refresh_token, :expires_at
