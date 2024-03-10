@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :artist do
-    identifier { 'identifier' }
+    identifier { Faker::Alphanumeric.alpha(number: 10) }
+    name { Faker::Music::RockBand.name }
   end
 end

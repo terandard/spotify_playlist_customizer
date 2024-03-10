@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :user do
-    identifier { 'identifier' }
+    identifier { Faker::Alphanumeric.alpha(number: 10) }
     access_token { 'access_token' }
     refresh_token { 'refresh_token' }
   end

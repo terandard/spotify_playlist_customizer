@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :playlist do
     user
-    identifier { 'identifier' }
+    identifier { Faker::Alphanumeric.alpha(number: 10) }
   end
 end

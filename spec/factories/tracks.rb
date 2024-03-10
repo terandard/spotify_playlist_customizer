@@ -3,9 +3,9 @@
 FactoryBot.define do
   factory :track do
     artist
-    identifier { 'identifier' }
-    popularity { 1 }
-    duration_ms { 1 }
-    name { 'name' }
+    identifier { Faker::Alphanumeric.alpha(number: 10) }
+    popularity { 100 }
+    duration_ms { 100_000 }
+    name { Faker::Music::RockBand.song }
   end
 end
