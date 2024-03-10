@@ -10,11 +10,16 @@ class PlaylistsController < ApplicationController
 
   # GET /playlists/:identifier
   def show
-    response = user_api_client.playlist_details(playlist_id: params[:identifier])
+    response = user_api_client.playlist_details(playlist_id: current_playlist.identifier)
     @playlist_items = response['items']
+    save_playlist_details(@playlist_items)
   end
 
   private
+
+  def current_playlist
+    @current_playlist ||= current_user.playlists.find_by!(identifier: params[:identifier])
+  end
 
   def user_api_client
     Spotify::V1ApiClient.new(user: current_user)
@@ -29,6 +34,38 @@ class PlaylistsController < ApplicationController
           name: playlist.name,
           image_url: playlist.images.first&.url
         )
+    end
+  end
+
+  def save_playlist_details(playlist_items)
+    playlist_items.each_with_index do |item, index|
+      artist = create_or_find_artist(item)
+
+      track = create_or_find_track(item, artist)
+
+      playlist_track = PlaylistTrack.create_or_find_by!(playlist_id: current_playlist.id, track_id: track.id)
+      playlist_track.update!(position: index)
+    end
+  end
+
+  # return [Artist]
+  def create_or_find_artist(item)
+    artist = item.track.artists.first
+    Artist.create_or_find_by!(identifier: artist.id) do |a|
+      a.name = artist.name
+      a.genres = artist.genres
+      a.popularity = artist.popularity
+    end
+  end
+
+  # return [Track]
+  def create_or_find_track(item, artist)
+    track = item.track
+    Track.create_or_find_by!(identifier: track.id) do |t|
+      t.artist_id = artist.id
+      t.popularity = track.popularity
+      t.duration_ms = track.duration_ms
+      t.name = track.name
     end
   end
 end
