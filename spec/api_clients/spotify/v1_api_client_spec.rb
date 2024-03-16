@@ -145,4 +145,34 @@ RSpec.describe Spotify::V1ApiClient, type: :api_client do
         .with(headers:, body: expected_body)
     end
   end
+
+  describe '#add_playlist_tracks' do
+    subject(:api_request) { api_client.add_playlist_tracks(playlist_identifier:, tracks:, position:) }
+
+    let(:playlist_identifier) { 'playlist_identifier' }
+    let(:tracks) { Track.all }
+    let(:position) { 1 }
+    let(:expected_body) do
+      {
+        uris: [
+          'spotify:track:track_identifier1',
+          'spotify:track:track_identifier2'
+        ],
+        position: 1
+      }
+    end
+
+    before do
+      create(:track, identifier: 'track_identifier1')
+      create(:track, identifier: 'track_identifier2')
+    end
+
+    it_behaves_like 'to handle errors'
+
+    it do
+      expect { api_request }
+        .to request_to(:post, 'https://api.spotify.com/v1/playlists/playlist_identifier/tracks')
+        .with(headers:, body: expected_body)
+    end
+  end
 end
