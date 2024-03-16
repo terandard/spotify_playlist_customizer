@@ -130,4 +130,19 @@ RSpec.describe Spotify::V1ApiClient, type: :api_client do
         .with(headers:, query:)
     end
   end
+
+  describe '#create_playlist' do
+    subject(:api_request) { api_client.create_playlist(name:) }
+
+    let(:name) { 'playlist_name' }
+    let(:expected_body) { { name: 'playlist_name' } }
+
+    it_behaves_like 'to handle errors'
+
+    it do
+      expect { api_request }
+        .to request_to(:post, "https://api.spotify.com/v1/users/#{user.identifier}/playlists")
+        .with(headers:, body: expected_body)
+    end
+  end
 end

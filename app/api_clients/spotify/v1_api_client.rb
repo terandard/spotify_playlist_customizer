@@ -47,6 +47,17 @@ module Spotify
       get "/playlists/#{playlist_id}/tracks", query:, headers:
     end
 
+    # POST https://api.spotify.com/v1/users/{user_id}/playlists
+    #
+    # @param name [String] The playlist name.
+    # @return [Sawyer::Resource] Get a created playlist.
+    # @raise [MyApiClient::Error]
+    # @see https://developer.spotify.com/documentation/web-api/reference/create-playlist
+    def create_playlist(name:)
+      body = { name: }
+      post "/users/#{user.identifier}/playlists", body:, headers:
+    end
+
     private
 
     attr_reader :user, :access_token, :refresh_token, :expires_at
