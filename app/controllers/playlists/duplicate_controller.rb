@@ -3,7 +3,9 @@
 module Playlists
   class DuplicateController < ApplicationController
     # GET /playlists/:identifier/duplicate
-    def new; end
+    def new
+      @current_playlist = current_playlist
+    end
 
     # POST /playlists/:identifier/duplicate
     def create

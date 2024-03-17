@@ -1,0 +1,7 @@
+<h1>Playlist Duplicate</h1>
+
+<%= form_with url: playlist_duplicate_path(@current_playlist.identifier), method: :post do |f| %>
+  <%= f.label :name, "Playlist name:" %>
+  <%= f.text_field :name, value: @current_playlist.name %>
+  <%= f.submit "Duplicate" %>
+<% end %>
