@@ -6,8 +6,8 @@
 #
 #  id            :bigint           not null, primary key
 #  identifier    :string(255)      not null
-#  access_token  :string(255)      not null
-#  refresh_token :string(255)      not null
+#  access_token  :string(512)      not null
+#  refresh_token :string(512)      not null
 #  expires_at    :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

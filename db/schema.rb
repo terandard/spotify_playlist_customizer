@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_309_095_847) do
+ActiveRecord::Schema[7.1].define(version: 20_240_317_045_752) do
   create_table 'artists', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
     t.string 'identifier', null: false
     t.string 'name', null: false
@@ -56,8 +56,8 @@ ActiveRecord::Schema[7.1].define(version: 20_240_309_095_847) do
 
   create_table 'users', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
     t.string 'identifier', null: false
-    t.string 'access_token', null: false
-    t.string 'refresh_token', null: false
+    t.string 'access_token', limit: 512, null: false
+    t.string 'refresh_token', limit: 512, null: false
     t.datetime 'expires_at'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
