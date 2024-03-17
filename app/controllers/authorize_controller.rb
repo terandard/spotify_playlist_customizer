@@ -57,7 +57,7 @@ class AuthorizeController < ApplicationController
   end
 
   def scope
-    'playlist-modify-private'
+    'playlist-modify-private playlist-modify-public'
   end
 
   def redirect_uri
