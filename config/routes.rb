@@ -3,7 +3,12 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   resource :login, only: :show
-  resources :playlists, only: %i[index show], param: :identifier
+  resources :playlists, only: %i[index show], param: :identifier do
+    scope module: :playlists do
+      get :duplicate, to: 'duplicate#new'
+      post :duplicate, to: 'duplicate#create'
+    end
+  end
 
   get 'authorize/start'
   get 'authorize/callback'
