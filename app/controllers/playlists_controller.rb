@@ -38,13 +38,14 @@ class PlaylistsController < ApplicationController
   end
 
   def save_playlist_details(playlist_items)
+    current_playlist.playlist_tracks.destroy_all
+
     playlist_items.each_with_index do |item, index|
       artist = create_or_find_artist(item)
 
       track = create_or_find_track(item, artist)
 
-      playlist_track = PlaylistTrack.create_or_find_by!(playlist_id: current_playlist.id, track_id: track.id)
-      playlist_track.update!(position: index)
+      current_playlist.playlist_tracks.create!(track:, position: index)
     end
   end
 
