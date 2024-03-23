@@ -75,10 +75,11 @@ RSpec.describe 'Playlists' do
       api_request
       track = Track.find_by(identifier: 'track_identifier_1')
       expect(track).to have_attributes(
+        artist: Artist.find_by(identifier: 'artist_identifier_1'),
         name: 'Track 1',
         popularity: 100,
         duration_ms: 100_000,
-        artist_id: Artist.find_by(identifier: 'artist_identifier_1').id
+        image_url: 'http://example.com/image.jpg'
       )
     end
 

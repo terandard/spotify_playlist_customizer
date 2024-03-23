@@ -63,10 +63,11 @@ class PlaylistsController < ApplicationController
   def create_or_find_track(item, artist)
     track = item.track
     Track.create_or_find_by!(identifier: track.id) do |t|
-      t.artist_id = artist.id
+      t.artist = artist
       t.popularity = track.popularity
       t.duration_ms = track.duration_ms
       t.name = track.name
+      t.image_url = track.album.images.first&.url
     end
   end
 end
