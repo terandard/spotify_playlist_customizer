@@ -11,12 +11,12 @@ RSpec.describe 'Authorizes' do
       {
         response_type: 'code',
         client_id: 'spotify-client-id',
-        scope: 'playlist-modify-private',
+        scope: 'playlist-modify-private playlist-modify-public',
         redirect_uri: 'http://localhost:3000/authorize/callback',
         state:
       }
     end
-    let(:expected_url) { "#{authorize_url}?#{query.to_param}" }
+    let(:expected_url) { "#{authorize_url}?#{query.to_param.gsub('+', '%20')}" }
     let(:state) { 'state' }
     let(:session) do
       instance_double(ActionDispatch::Request::Session)

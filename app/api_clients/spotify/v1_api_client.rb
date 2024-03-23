@@ -47,6 +47,31 @@ module Spotify
       get "/playlists/#{playlist_id}/tracks", query:, headers:
     end
 
+    # POST https://api.spotify.com/v1/users/{user_id}/playlists
+    #
+    # @param name [String] The playlist name.
+    # @return [Sawyer::Resource] Get a created playlist.
+    # @raise [MyApiClient::Error]
+    # @see https://developer.spotify.com/documentation/web-api/reference/create-playlist
+    def create_playlist(name:)
+      body = { name: }
+      post "/users/#{user.identifier}/playlists", body:, headers:
+    end
+
+    # POST https://api.spotify.com/v1/playlists/{playlist_id}/tracks
+    #
+    # @param playlist_identifier [String] The playlist identifier.
+    # @param tracks [Array<Track>] A list of tracks.
+    # @param position [Integer] The position to insert the tracks, a zero-based index.
+    # @return [Sawyer::Resource] A snapshot ID for the playlist.
+    # @raise [MyApiClient::Error]
+    # @see https://developer.spotify.com/documentation/web-api/reference/add-tracks-to-playlist
+    def add_playlist_tracks(playlist_identifier:, tracks:, position: 0)
+      uris = tracks.map { |track| "spotify:track:#{track.identifier}" }
+      body = { position:, uris: }
+      post "/playlists/#{playlist_identifier}/tracks", body:, headers:
+    end
+
     private
 
     attr_reader :user, :access_token, :refresh_token, :expires_at
