@@ -8,5 +8,6 @@ RSpec.describe Playlist do
 
     it { expect(instance).to belong_to(:user) }
     it { expect(instance).to have_many(:playlist_tracks).dependent(:destroy) }
+    it { expect(instance).to have_many(:tracks).through(:playlist_tracks) }
   end
 end
