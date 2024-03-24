@@ -3,11 +3,11 @@
 <%= link_to 'Duplicate', playlist_duplicate_path(@current_playlist.identifier) %>
 
 <div>
-  <% @playlist_items.each do |item| %>
-    <%= image_tag item.track.album.images[0].url %>
+  <% @current_playlist.tracks.each do |track| %>
+    <%= image_tag track.image_url %>
     <ul>
-      <li>Name: <%= item.track.name %></li>
-      <li>Artist: <%= item.track.artists.map(&:name).join(',') %></li>
+      <li>Name: <%= track.name %></li>
+      <li>Artist: <%= track.artist.name %></li>
     </ul>
   <% end %>
 </div>

@@ -11,8 +11,8 @@ class PlaylistsController < ApplicationController
   # GET /playlists/:identifier
   def show
     response = user_api_client.playlist_details(playlist_id: current_playlist.identifier)
-    @playlist_items = response['items']
-    save_playlist_details(@playlist_items)
+    playlist_items = response['items']
+    save_playlist_details(playlist_items)
   end
 
   private
