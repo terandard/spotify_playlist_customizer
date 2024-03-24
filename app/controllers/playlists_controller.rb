@@ -11,8 +11,8 @@ class PlaylistsController < ApplicationController
   # GET /playlists/:identifier
   def show
     response = user_api_client.playlist_details(playlist_id: current_playlist.identifier)
-    @playlist_items = response['items']
-    save_playlist_details(@playlist_items)
+    playlist_items = response['items']
+    save_playlist_details(playlist_items)
   end
 
   private
@@ -63,10 +63,11 @@ class PlaylistsController < ApplicationController
   def create_or_find_track(item, artist)
     track = item.track
     Track.create_or_find_by!(identifier: track.id) do |t|
-      t.artist_id = artist.id
+      t.artist = artist
       t.popularity = track.popularity
       t.duration_ms = track.duration_ms
       t.name = track.name
+      t.image_url = track.album.images.first&.url
     end
   end
 end

@@ -10,6 +10,7 @@
 #  popularity  :integer          not null
 #  duration_ms :integer          not null
 #  name        :string(255)
+#  image_url   :string(255)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
@@ -24,5 +25,7 @@
 #
 class Track < ApplicationRecord
   belongs_to :artist
+
   has_many :playlist_tracks, dependent: :destroy
+  has_many :playlist, through: :playlist_tracks
 end

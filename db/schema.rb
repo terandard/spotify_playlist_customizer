@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_317_045_752) do
+ActiveRecord::Schema[7.1].define(version: 20_240_323_024_011) do
   create_table 'artists', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
     t.string 'identifier', null: false
     t.string 'name', null: false
@@ -48,6 +48,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_317_045_752) do
     t.integer 'popularity', null: false
     t.integer 'duration_ms', null: false
     t.string 'name'
+    t.string 'image_url'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['artist_id'], name: 'index_tracks_on_artist_id'
