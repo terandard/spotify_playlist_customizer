@@ -72,6 +72,19 @@ module Spotify
       post "/playlists/#{playlist_identifier}/tracks", body:, headers:
     end
 
+    # GET https://api.spotify.com/v1/recommendations
+    #
+    # @param seed_tracks [Array<Track>] A list of tracks.
+    # @return [Sawyer::Resource] A set of recommendations
+    # @raise [MyApiClient::Error]
+    # @see https://developer.spotify.com/documentation/web-api/reference/get-recommendations
+    def recommendations(tracks:)
+      seed_tracks = tracks.map(&:identifier).join(',')
+      seed_artists = tracks.map { |track| track.artist.identifier }.join(',')
+      query = { seed_tracks:, seed_artists: }
+      get '/recommendations', query:, headers:
+    end
+
     private
 
     attr_reader :user, :access_token, :refresh_token, :expires_at

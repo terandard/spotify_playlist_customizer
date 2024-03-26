@@ -175,4 +175,31 @@ RSpec.describe Spotify::V1ApiClient, type: :api_client do
         .with(headers:, body: expected_body)
     end
   end
+
+  describe '#recommendations' do
+    subject(:api_request) { api_client.recommendations(tracks:) }
+
+    let(:tracks) { Track.all }
+    let(:query) do
+      {
+        seed_tracks: 'track_identifier1,track_identifier2',
+        seed_artists: 'artist_identifier1,artist_identifier2'
+      }
+    end
+
+    before do
+      artist1 = create(:artist, identifier: 'artist_identifier1')
+      create(:track, identifier: 'track_identifier1', artist: artist1)
+      artist2 = create(:artist, identifier: 'artist_identifier2')
+      create(:track, identifier: 'track_identifier2', artist: artist2)
+    end
+
+    it_behaves_like 'to handle errors'
+
+    it do
+      expect { api_request }
+        .to request_to(:get, 'https://api.spotify.com/v1/recommendations')
+        .with(headers:, query:)
+    end
+  end
 end
