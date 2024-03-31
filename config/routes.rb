@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     get :recommendations, on: :member
 
     scope module: :playlists do
+      resources :tracks, only: %i[create]
+
       get :duplicate, to: 'duplicate#new'
       post :duplicate, to: 'duplicate#create'
     end
