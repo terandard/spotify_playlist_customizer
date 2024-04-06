@@ -44,7 +44,7 @@ class PlaylistsController < ApplicationController
   end
 
   def save_playlist_details(playlist_items)
-    current_playlist.playlist_tracks.destroy_all
+    current_playlist.playlist_tracks.delete_all
 
     playlist_items.each_with_index do |item, index|
       artist = create_or_find_artist(item.track.artists.first)
