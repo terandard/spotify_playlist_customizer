@@ -17,7 +17,7 @@ class PlaylistsController < ApplicationController
 
   # GET /playlists/:identifier/recommendations
   def recommendations
-    response = user_api_client.recommendations(tracks: current_playlist.tracks.sample(2))
+    response = user_api_client.recommendations(tracks: current_playlist.tracks.sample(5))
     @recommendations = save_recommendations(response['tracks'])
   end
 

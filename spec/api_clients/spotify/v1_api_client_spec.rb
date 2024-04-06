@@ -182,16 +182,13 @@ RSpec.describe Spotify::V1ApiClient, type: :api_client do
     let(:tracks) { Track.all }
     let(:query) do
       {
-        seed_tracks: 'track_identifier1,track_identifier2',
-        seed_artists: 'artist_identifier1,artist_identifier2'
+        seed_tracks: 'track_identifier1,track_identifier2'
       }
     end
 
     before do
-      artist1 = create(:artist, identifier: 'artist_identifier1')
-      create(:track, identifier: 'track_identifier1', artist: artist1)
-      artist2 = create(:artist, identifier: 'artist_identifier2')
-      create(:track, identifier: 'track_identifier2', artist: artist2)
+      create(:track, identifier: 'track_identifier1')
+      create(:track, identifier: 'track_identifier2')
     end
 
     it_behaves_like 'to handle errors'

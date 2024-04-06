@@ -41,7 +41,7 @@ RSpec.describe 'Playlists' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user) # rubocop:disable RSpec/AnyInstance
       allow(Spotify::V1ApiClient).to receive(:new).and_return(v1_api_client)
 
-      create_list(:playlist_track, 2, playlist:)
+      create_list(:playlist_track, 5, playlist:)
     end
 
     it 'returns http success' do
