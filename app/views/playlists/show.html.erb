@@ -1,5 +1,6 @@
 <h1>Playlist Details</h1>
 
+<%= link_to 'Recommendations', recommendations_playlist_path(@current_playlist.identifier) %>
 <%= link_to 'Duplicate', playlist_duplicate_path(@current_playlist.identifier) %>
 
 <div>

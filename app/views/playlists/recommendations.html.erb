@@ -1,0 +1,12 @@
+<h1>Recommendations</h1>
+
+<div>
+  <% @recommendations.each do |track| %>
+    <%= image_tag track.image_url %>
+    <ul>
+      <li>Name: <%= track.name %></li>
+      <li>Artist: <%= track.artist.name %></li>
+      <%= link_to 'Add', playlist_tracks_path(@current_playlist.identifier, params: {track_identifier: track.identifier}), data: { "turbo-method": :post } %>
+    </ul>
+  <% end %>
+</div>
