@@ -21,6 +21,15 @@ class PlaylistsController < ApplicationController
     @recommendations = save_recommendations(response['tracks'])
   end
 
+  # POST /playlists/:identifier/sync
+  def sync
+    response = user_api_client.playlist_details(playlist_id: current_playlist.identifier)
+    playlist_items = response['items']
+    save_playlist_details(playlist_items)
+
+    redirect_to playlist_path(current_playlist.identifier)
+  end
+
   private
 
   def current_playlist
