@@ -2,6 +2,7 @@
 
 <%= link_to 'Recommendations', recommendations_playlist_path(@current_playlist.identifier) %>
 <%= link_to 'Duplicate', playlist_duplicate_path(@current_playlist.identifier) %>
+<%= link_to 'Sync', sync_playlist_path(@current_playlist.identifier), data: { "turbo-method": :post } %>
 
 <div>
   <% @current_playlist.tracks.each do |track| %>
