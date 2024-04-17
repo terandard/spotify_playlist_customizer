@@ -19,6 +19,6 @@
 class Playlist < ApplicationRecord
   belongs_to :user
 
-  has_many :playlist_tracks, dependent: :destroy
+  has_many :playlist_tracks, -> { order(:position) }, dependent: :destroy, inverse_of: :playlist
   has_many :tracks, through: :playlist_tracks
 end

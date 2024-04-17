@@ -5,11 +5,11 @@
 <%= link_to 'Sync', sync_playlist_path(@current_playlist.identifier), data: { "turbo-method": :post } %>
 
 <div>
-  <% @current_playlist.tracks.each do |track| %>
-    <%= image_tag track.image_url %>
+  <% @current_playlist.playlist_tracks.each do |pt| %>
+    <%= image_tag pt.track.image_url %>
     <ul>
-      <li>Name: <%= track.name %></li>
-      <li>Artist: <%= track.artist.name %></li>
+      <li>Name: <%= pt.track.name %></li>
+      <li>Artist: <%= pt.track.artist.name %></li>
     </ul>
   <% end %>
 </div>
