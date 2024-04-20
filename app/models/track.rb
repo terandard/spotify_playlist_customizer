@@ -27,5 +27,4 @@ class Track < ApplicationRecord
   belongs_to :artist
 
   has_many :playlist_tracks, dependent: :destroy
-  has_many :playlist, through: :playlist_tracks
 end
