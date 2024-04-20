@@ -10,15 +10,22 @@ class PlaylistsController < ApplicationController
 
   # GET /playlists/:identifier
   def show
-    response = user_api_client.playlist_details(playlist_id: current_playlist.identifier)
-    playlist_items = response['items']
-    save_playlist_details(playlist_items)
+    current_playlist
   end
 
   # GET /playlists/:identifier/recommendations
   def recommendations
     response = user_api_client.recommendations(tracks: current_playlist.tracks.sample(5))
     @recommendations = save_recommendations(response['tracks'])
+  end
+
+  # POST /playlists/:identifier/sync
+  def sync
+    response = user_api_client.playlist_details(playlist_id: current_playlist.identifier)
+    playlist_items = response['items']
+    save_playlist_details(playlist_items)
+
+    redirect_to playlist_path(current_playlist.identifier)
   end
 
   private

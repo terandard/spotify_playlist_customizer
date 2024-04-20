@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resource :login, only: :show
   resources :playlists, only: %i[index show], param: :identifier do
     get :recommendations, on: :member
+    post :sync, on: :member
 
     scope module: :playlists do
       resources :tracks, only: %i[create]

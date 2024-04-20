@@ -2,13 +2,16 @@
 
 <%= link_to 'Recommendations', recommendations_playlist_path(@current_playlist.identifier) %>
 <%= link_to 'Duplicate', playlist_duplicate_path(@current_playlist.identifier) %>
+<%= link_to 'Sync', sync_playlist_path(@current_playlist.identifier), data: { "turbo-method": :post } %>
 
 <div>
-  <% @current_playlist.tracks.each do |track| %>
-    <%= image_tag track.image_url %>
+  <% @current_playlist.playlist_tracks.includes(track: :artist).each do |pt| %>
+    <% if pt.track.image_url.present? %>
+      <%= image_tag pt.track.image_url %>
+    <% end %>
     <ul>
-      <li>Name: <%= track.name %></li>
-      <li>Artist: <%= track.artist.name %></li>
+      <li>Name: <%= pt.track.name %></li>
+      <li>Artist: <%= pt.track.artist.name %></li>
     </ul>
   <% end %>
 </div>

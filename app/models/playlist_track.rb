@@ -16,6 +16,6 @@
 #  index_playlist_tracks_on_playlist_id_and_track_id  (playlist_id,track_id) UNIQUE
 #
 class PlaylistTrack < ApplicationRecord
-  belongs_to :playlist
+  belongs_to :playlist, inverse_of: :playlist_tracks
   belongs_to :track
 end

@@ -24,9 +24,8 @@ RSpec.describe 'Playlists::Tracks' do
     end
 
     context 'when a normal case' do
-      it 'returns 201 Created' do
-        api_request
-        expect(response).to have_http_status(:created)
+      it 'redirects to the playlists page' do
+        expect(api_request).to redirect_to(playlist_path(playlist.identifier))
       end
 
       it 'adds a track to the playlist' do

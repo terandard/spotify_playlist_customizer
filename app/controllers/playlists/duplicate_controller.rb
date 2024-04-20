@@ -13,7 +13,7 @@ module Playlists
 
       new_playlist = duplicate_playlist(response)
 
-      tracks = current_playlist.playlist_tracks.map(&:track)
+      tracks = current_playlist.playlist_tracks.includes([:track]).map(&:track)
       user_api_client.add_playlist_tracks(playlist_identifier: new_playlist.identifier, tracks:)
 
       redirect_to playlist_path(new_playlist.identifier)
