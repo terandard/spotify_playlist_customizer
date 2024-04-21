@@ -28,3 +28,7 @@
  .track__artist {
   font-size: 0.8rem;
  }
+ .recommend__wrap {
+  display: flex;
+  align-items: center;
+ }
