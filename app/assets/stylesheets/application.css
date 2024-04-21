@@ -13,3 +13,18 @@
  *= require_tree .
  *= require_self
  */
+
+ li {
+  list-style:none;
+ }
+ .track__wrap {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+ }
+ .track__name {
+  font-size: 1rem;
+ }
+ .track__artist {
+  font-size: 0.8rem;
+ }

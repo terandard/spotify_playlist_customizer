@@ -1,0 +1,9 @@
+<div class='track__wrap'>
+  <% if track.image_url.present? %>
+    <%= image_tag track.image_url, size: "100x100" %>
+  <% end %>
+  <ul>
+    <li class='track__name'><%= track.name %></li>
+    <li class='track__artist'><%= track.artist.name %></li>
+  </ul>
+</div>

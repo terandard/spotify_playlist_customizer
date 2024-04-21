@@ -6,12 +6,6 @@
 
 <div>
   <% @current_playlist.playlist_tracks.includes(track: :artist).each do |pt| %>
-    <% if pt.track.image_url.present? %>
-      <%= image_tag pt.track.image_url %>
-    <% end %>
-    <ul>
-      <li>Name: <%= pt.track.name %></li>
-      <li>Artist: <%= pt.track.artist.name %></li>
-    </ul>
+    <%= render 'track', track: pt.track %>
   <% end %>
 </div>
