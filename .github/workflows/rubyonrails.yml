@@ -1,0 +1,42 @@
+name: "Ruby on Rails CI"
+on:
+  push:
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    container: ruby:3.3.0
+    services:
+      rdb:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      redis:
+        image: redis:7.0
+        ports:
+          - 6379:6379
+    env:
+      RAILS_ENV: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install gems
+        run: bundle install
+      - name: Set up database schema
+        run: bundle exec rails db:create db:schema:load
+      - name: Run rspec
+        run: bundle exec rspec
+
+  rubocop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@1198b074305f9356bd56dd4b311757cc0dab2f1c # v1.175.1
+        with:
+          bundler-cache: true
+      - name: Lint Ruby files
+        run: bundle exec rubocop
