@@ -3,5 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe 'logins/show.html.erb' do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'renders the login link' do
+    render
+
+    expect(rendered).to have_link('Spotify Login', href: authorize_start_path)
+  end
 end
