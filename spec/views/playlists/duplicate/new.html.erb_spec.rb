@@ -7,23 +7,19 @@ RSpec.describe 'playlists/duplicate/new.html.erb' do
 
   before do
     assign(:current_playlist, playlist)
+
+    render
   end
 
   it 'renders the form with duplicate url' do
-    render
-
     expect(rendered).to have_xpath('//form[@action="/playlists/identifier/duplicate"]')
   end
 
   it 'shows playlist name on text field' do
-    render
-
     expect(rendered).to have_field 'name', with: 'playlist_name'
   end
 
   it 'renders the submit button' do
-    render
-
     expect(rendered).to have_button 'Duplicate'
   end
 end

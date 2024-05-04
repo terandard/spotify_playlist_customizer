@@ -20,22 +20,21 @@ RSpec.describe 'playlists/index.html.erb' do
 
   before do
     assign(:playlists, [playlist_response])
+
+    render
   end
 
   it 'renders the playlist image' do
-    render
     expect(rendered).to have_xpath("//img[@src=\"#{image_url}\"]")
   end
 
   it 'renders a list of playlists' do
-    render
     expect(rendered).to match(/name/)
     expect(rendered).to match(/display_name/)
     expect(rendered).to match(/2/)
   end
 
   it 'renders the playlist detail link' do
-    render
     expect(rendered).to have_link('details', href: playlist_path('id'))
   end
 end
