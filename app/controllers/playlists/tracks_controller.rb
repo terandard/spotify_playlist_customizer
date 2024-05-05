@@ -10,6 +10,14 @@ module Playlists
       redirect_to playlist_path(current_playlist.identifier)
     end
 
+    # DELETE /playlists/:playlist_identifier/tracks
+    def destroy
+      target_track = current_playlist.tracks.find_by!(identifier: params[:track_identifier])
+      user_api_client.delete_playlist_tracks(playlist_identifier: current_playlist.identifier, tracks: [target_track])
+
+      redirect_to playlist_path(current_playlist.identifier)
+    end
+
     private
 
     def current_playlist
