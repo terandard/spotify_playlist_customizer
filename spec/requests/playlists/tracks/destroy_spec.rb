@@ -34,6 +34,12 @@ RSpec.describe 'Playlists::Tracks' do
           .to have_received(:delete_playlist_tracks)
           .with(playlist_identifier: playlist.identifier, tracks: [playlist_track.track])
       end
+
+      it 'deletes a playlist track' do
+        expect { api_request }
+          .to change { playlist.playlist_tracks.find_by(id: playlist_track.id) }
+          .from(playlist_track).to(nil)
+      end
     end
   end
 end
