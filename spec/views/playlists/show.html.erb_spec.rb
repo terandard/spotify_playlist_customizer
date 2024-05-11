@@ -8,7 +8,7 @@ RSpec.describe 'playlists/show.html.erb' do
   before do
     assign(:current_playlist, playlist)
 
-    track = create(:track, name: 'track_name')
+    track = create(:track, identifier: 'track_identifier', name: 'track_name')
     create(:playlist_track, playlist:, track:)
 
     render
@@ -28,5 +28,10 @@ RSpec.describe 'playlists/show.html.erb' do
 
   it 'renders track component' do
     expect(rendered).to have_content('track_name')
+  end
+
+  it 'renders track delete link' do
+    expect(rendered)
+      .to have_link('Delete', href: playlist_tracks_path('identifier', track_identifier: 'track_identifier'))
   end
 end
