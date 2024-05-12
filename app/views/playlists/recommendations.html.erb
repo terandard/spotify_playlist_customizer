@@ -5,6 +5,6 @@
 <% @recommendations.each do |track| %>
   <div class='recommend__wrap'>
     <%= link_to 'Add', playlist_tracks_path(@current_playlist.identifier, params: {track_identifier: track.identifier}), data: { "turbo-method": :post } %>
-    <%= render 'track', track: track %>
+    <%= render 'track', track: track, playlist: @current_playlist, show_delete: false %>
   </div>
 <% end %>

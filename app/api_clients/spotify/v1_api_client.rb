@@ -72,6 +72,19 @@ module Spotify
       post "/playlists/#{playlist_identifier}/tracks", body:, headers:
     end
 
+    # DELETE https://api.spotify.com/v1/playlists/{playlist_id}/tracks
+    #
+    # @param playlist_identifier [String] The playlist identifier.
+    # @param tracks [Array<Track>] A list of tracks.
+    # @return [Sawyer::Resource] A snapshot ID for the playlist.
+    # @raise [MyApiClient::Error]
+    # @see https://developer.spotify.com/documentation/web-api/reference/remove-tracks-playlist
+    def delete_playlist_tracks(playlist_identifier:, tracks:)
+      track_uris = tracks.map { |track| { uri: "spotify:track:#{track.identifier}" } }
+      body = { tracks: track_uris }
+      delete "/playlists/#{playlist_identifier}/tracks", body:, headers:
+    end
+
     # GET https://api.spotify.com/v1/recommendations
     #
     # @param seed_tracks [Array<Track>] A list of tracks.

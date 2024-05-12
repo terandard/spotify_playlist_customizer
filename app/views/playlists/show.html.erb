@@ -8,6 +8,6 @@
 
 <div>
   <% @current_playlist.playlist_tracks.includes(track: :artist).each do |pt| %>
-    <%= render 'track', track: pt.track %>
+    <%= render 'track', track: pt.track, playlist: @current_playlist, show_delete: true %>
   <% end %>
 </div>

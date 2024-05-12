@@ -176,6 +176,34 @@ RSpec.describe Spotify::V1ApiClient, type: :api_client do
     end
   end
 
+  describe '#delete_playlist_tracks' do
+    subject(:api_request) { api_client.delete_playlist_tracks(playlist_identifier:, tracks:) }
+
+    let(:playlist_identifier) { 'playlist_identifier' }
+    let(:tracks) { Track.all }
+    let(:expected_body) do
+      {
+        tracks: [
+          { uri: 'spotify:track:track_identifier1' },
+          { uri: 'spotify:track:track_identifier2' }
+        ]
+      }
+    end
+
+    before do
+      create(:track, identifier: 'track_identifier1')
+      create(:track, identifier: 'track_identifier2')
+    end
+
+    it_behaves_like 'to handle errors'
+
+    it do
+      expect { api_request }
+        .to request_to(:delete, 'https://api.spotify.com/v1/playlists/playlist_identifier/tracks')
+        .with(headers:, body: expected_body)
+    end
+  end
+
   describe '#recommendations' do
     subject(:api_request) { api_client.recommendations(tracks:) }
 

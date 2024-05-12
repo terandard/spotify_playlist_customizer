@@ -5,5 +5,14 @@
   <ul>
     <li class='track__name'><%= track.name %></li>
     <li class='track__artist'><%= track.artist.name %></li>
+    <% if show_delete %>
+      <%= link_to 'Delete', 
+        playlist_tracks_path(
+          playlist.identifier, 
+          params: {track_identifier: track.identifier}
+        ), 
+        data: {"turbo-method": :delete }
+      %>
+    <% end %>
   </ul>
 </div>

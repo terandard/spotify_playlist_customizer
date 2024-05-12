@@ -24,4 +24,8 @@ RSpec.describe 'playlists/recommendations.html.erb' do
   it 'renders track component' do
     expect(rendered).to have_content('track_name')
   end
+
+  it 'does not render the track delete link' do
+    expect(rendered).to have_no_link('Delete')
+  end
 end

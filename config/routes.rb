@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     post :sync, on: :member
 
     scope module: :playlists do
-      resources :tracks, only: %i[create]
+      resource :tracks, only: %i[create destroy]
 
       get :duplicate, to: 'duplicate#new'
       post :duplicate, to: 'duplicate#create'
