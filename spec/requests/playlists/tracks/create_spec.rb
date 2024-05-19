@@ -19,7 +19,7 @@ RSpec.describe 'Playlists::Tracks' do
     end
 
     before do
-      create(:playlist_track, playlist:, track:)
+      create(:playlist_track, playlist:)
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user) # rubocop:disable RSpec/AnyInstance
       allow(Spotify::V1ApiClient).to receive(:new).and_return(v1_api_client)
@@ -34,7 +34,17 @@ RSpec.describe 'Playlists::Tracks' do
         api_request
         expect(v1_api_client)
           .to have_received(:add_playlist_tracks)
-          .with(playlist_identifier: playlist.identifier, tracks: [track])
+          .with(playlist_identifier: playlist.identifier, tracks: [track], position: 1)
+      end
+
+      it 'saves the track to the playlist' do
+        expect { api_request }
+          .to change(playlist.playlist_tracks, :count).by(1)
+      end
+
+      it 'persists the track to the playlist' do
+        api_request
+        expect(playlist.playlist_tracks.last.track).to eq(track)
       end
     end
   end

@@ -91,5 +91,71 @@ RSpec.describe 'Playlists' do
         position: 0
       )
     end
+
+    context 'when the api response has next field' do
+      def stub_as_resource(params)
+        case params
+        when Hash  then Sawyer::Resource.new(agent, params)
+        when Array then params.map { |hash| stub_as_resource(hash) }
+        when nil   then nil
+        else params
+        end
+      end
+
+      def agent
+        instance_double(Sawyer::Agent).tap do |agent|
+          allow(agent).to receive(:parse_links) do |data|
+            data ||= {}
+            links = data.delete(:_links)
+            [data, links]
+          end
+        end
+      end
+
+      before do
+        next_response = {
+          next: 'http://example.com/next',
+          items: [
+            {
+              track: {
+                id: 'track_identifier_2',
+                name: 'Track 2',
+                popularity: 100,
+                duration_ms: 100_000,
+                album: {
+                  images: [
+                    { url: 'http://example.com/image.jpg' }
+                  ]
+                },
+                artists: [
+                  {
+                    id: 'artist_identifier_2',
+                    name: 'Artist 2',
+                    genres: %w[pop rock],
+                    popularity: 100
+                  }
+                ]
+              }
+            }
+          ]
+        }
+        allow(v1_api_client).to receive(:playlist_details).and_return(
+          stub_as_resource(next_response),
+          stub_as_resource(playlist_details_response)
+        )
+      end
+
+      it 'requests playlist details multiple times' do
+        api_request
+        expect(v1_api_client).to have_received(:playlist_details).twice
+      end
+
+      it 'saves each playlist details' do
+        expect { api_request }
+          .to change(PlaylistTrack, :count).by(2)
+          .and change(Track, :count).by(2)
+          .and change(Artist, :count).by(2)
+      end
+    end
   end
 end
