@@ -21,8 +21,16 @@ class PlaylistsController < ApplicationController
 
   # POST /playlists/:identifier/sync
   def sync
-    response = user_api_client.playlist_details(playlist_id: current_playlist.identifier)
-    playlist_items = response['items']
+    offset = 0
+    playlist_items = []
+
+    loop do
+      response = user_api_client.playlist_details(playlist_id: current_playlist.identifier, offset:)
+      playlist_items += response['items']
+      offset += 50
+      break unless response['next']
+    end
+
     save_playlist_details(playlist_items)
 
     redirect_to playlist_path(current_playlist.identifier)
