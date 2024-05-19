@@ -117,10 +117,11 @@ RSpec.describe Spotify::V1ApiClient, type: :api_client do
   end
 
   describe '#playlist_details' do
-    subject(:api_request) { api_client.playlist_details(playlist_id:) }
+    subject(:api_request) { api_client.playlist_details(playlist_id:, offset:) }
 
     let(:playlist_id) { 'playlist_id' }
-    let(:query) { { limit: 50 } }
+    let(:offset) { 0 }
+    let(:query) { { limit: 50, offset: 0 } }
 
     it_behaves_like 'to handle errors'
 
