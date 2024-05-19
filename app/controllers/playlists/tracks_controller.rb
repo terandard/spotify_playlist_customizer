@@ -4,10 +4,15 @@ module Playlists
   class TracksController < ApplicationController
     # POST /playlists/:playlist_identifier/tracks
     def create
+      position = current_playlist.playlist_tracks.count
+
       user_api_client.add_playlist_tracks(
         playlist_identifier: current_playlist.identifier,
-        tracks: [target_track]
+        tracks: [create_target_track],
+        position:
       )
+
+      current_playlist.playlist_tracks.create!(track: create_target_track, position:)
 
       redirect_to playlist_path(current_playlist.identifier)
     end
@@ -16,10 +21,10 @@ module Playlists
     def destroy
       user_api_client.delete_playlist_tracks(
         playlist_identifier: current_playlist.identifier,
-        tracks: [target_track]
+        tracks: [delete_target_track]
       )
 
-      current_playlist.playlist_tracks.find_by!(track: target_track).destroy!
+      current_playlist.playlist_tracks.find_by!(track: delete_target_track).destroy!
 
       redirect_to playlist_path(current_playlist.identifier)
     end
@@ -34,8 +39,12 @@ module Playlists
       Spotify::V1ApiClient.new(user: current_user)
     end
 
-    def target_track
-      @target_track ||= current_playlist.tracks.find_by!(identifier: params[:track_identifier])
+    def create_target_track
+      @create_target_track ||= Track.find_by!(identifier: params[:track_identifier])
+    end
+
+    def delete_target_track
+      @delete_target_track ||= current_playlist.tracks.find_by!(identifier: params[:track_identifier])
     end
   end
 end
